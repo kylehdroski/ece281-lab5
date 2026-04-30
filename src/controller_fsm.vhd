@@ -34,6 +34,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity controller_fsm is
     Port ( i_reset : in STD_LOGIC;
            i_adv : in STD_LOGIC;
+           i_clk : in STD_LOGIC;
            o_cycle : out STD_LOGIC_VECTOR (3 downto 0));
 end controller_fsm;
 
@@ -43,14 +44,14 @@ architecture FSM of controller_fsm is
 begin
     state_proc : process(i_clk)
     begin 
-        if rising_edge(i_clk) if
+        if rising_edge(i_clk) then
             if i_reset = '1' then
-            f_state <= s_CLEAR;
+                f_state <= s_CLEAR;
         else
             case f_state is
-                when s_CLEAR
+                when s_CLEAR =>
                     if i_adv = '1' then
-                        f_state <= s_OP1
+                        f_state <= s_OP1;
                     else
                         f_state <= s_CLEAR;
                     end if;
@@ -64,7 +65,7 @@ begin
                     if i_adv = '1' then
                         f_state <= s_MATH;
                     else
-                        f_state <= s_OP2
+                        f_state <= s_OP2;
                     end if;
                  when s_MATH =>
                     if i_adv = '1' then
@@ -72,7 +73,7 @@ begin
                     else
                         f_state <= s_MATH;
                     end if;
-                 when other;
+                 when others =>
                      f_state <= s_CLEAR;
                end case;
            end if;
