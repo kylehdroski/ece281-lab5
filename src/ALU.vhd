@@ -24,7 +24,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
+use IEEE.NUMERIC_STD.ALL;
 
 -- Uncomment the following library declaration if instantiating
 -- any Xilinx leaf cells in this code.
@@ -40,8 +40,37 @@ entity ALU is
 end ALU;
 
 architecture Behavioral of ALU is
-
+    signal w_result : STD_LOGIC_VECTOR (7 downto 0);
+    signal w_sum : STD_LOGIC_VECTOR (8 downto 0);
 begin
 
+    process(i_A, i_B, i_op)
+    begin
+        case i_op is
+            when "000" =>
+                w_sum <= ('0' & i_A) + ('0' & i_B);
+                w_result <= w_sum(7 downto 0);
+            when "001" =>
+                w_sum <= ('0' & i_A) - ('0' & i_B);
+                w_result <= w_sum(7 downto 0);
+            when "010" =>
+                w_result <= i_A and i_B;
+                w_sum <= (others => '0');
+            when "011" =>
+                w_result <= i_A or i_B;
+                w_sum <= (others => '0');
+            when others =>
+                w_result <= (others => '0');
+                w_sum <= (others => '0');
+          end case;
+     end process;
+     
+     o_result <= w_result;
+     
+     o_flags(3) <= w_result(7);
+     o_flags(2) <= '1' when w_result = "00000000" else '0';
+     o_flags(1) <= w_sum(8);
+     o_flags(0) <= (not i_op(0) and (not i_A(7) and not i_B(7) and w_result(7))) or (not i_op(0) and (i_A(7) and i_B(7) and not w_result(7)));
+            
 
 end Behavioral;
