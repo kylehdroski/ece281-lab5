@@ -44,10 +44,10 @@ end top_basys3;
 
 architecture top_basys3_arch of top_basys3 is 
   component button_debounce is
-    Port ( CLK: in STD_LOGIC;
-           reset: in STD_LOGIC;
-           button: in STD_LOGIC;
-           result: out STD_LOGIC);
+    Port ( clk : in STD_LOGIC;
+           reset : in STD_LOGIC;
+           button : in STD_LOGIC;
+           action : out STD_LOGIC);
   end component;
   
   component sevenseg_decoder is
@@ -125,10 +125,10 @@ begin
 	
 	debounce_inst : button_debounce
 	   port map (
-	       CLK => clk,
+	       clk => clk,
 	       reset => btnU,
 	       button => btnC,
-	       result => w_btnC_debounced
+	       action => w_btnC_debounced
 	   );
 	   
 	fsm_inst : controller_fsm
