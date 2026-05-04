@@ -51,11 +51,11 @@ begin
             when "000" =>
                 v_sum := std_logic_vector(('0' & unsigned(i_A)) + ('0' & unsigned(i_B)));
                 w_sum <= v_sum;
-                w_result <= w_sum(7 downto 0);
+                w_result <= v_sum(7 downto 0);
             when "001" =>
                 v_sum := std_logic_vector(('0' & unsigned(i_A)) - ('0' & unsigned(i_B)));
                 w_sum <= v_sum;
-                w_result <= w_sum(7 downto 0);
+                w_result <= v_sum(7 downto 0);
             when "010" =>
                 w_result <= i_A and i_B;
                 w_sum <= (others => '0');
