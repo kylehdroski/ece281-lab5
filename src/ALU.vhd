@@ -45,13 +45,16 @@ architecture Behavioral of ALU is
 begin
 
     process(i_A, i_B, i_op)
+        variable v_sum : STD_LOGIC_VECTOR (8 downto 0);
     begin
         case i_op is
             when "000" =>
-                w_sum <= std_logic_vector(('0' & unsigned(i_A)) + ('0' & unsigned(i_B)));
+                v_sum := std_logic_vector(('0' & unsigned(i_A)) + ('0' & unsigned(i_B)));
+                w_sum <= v_sum;
                 w_result <= w_sum(7 downto 0);
             when "001" =>
-                w_sum <= std_logic_vector(('0' & unsigned(i_A)) - ('0' & unsigned(i_B)));
+                v_sum := std_logic_vector(('0' & unsigned(i_A)) - ('0' & unsigned(i_B)));
+                w_sum <= v_sum;
                 w_result <= w_sum(7 downto 0);
             when "010" =>
                 w_result <= i_A and i_B;
